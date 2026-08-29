@@ -7,17 +7,17 @@
     "last_seen": "2026-08-29T20:21:18.701Z"
   },
   "CC-004": {
-    "occurrences": 6,
+    "occurrences": 12,
     "confidence": 1,
     "mastered_explicitly": false,
     "first_seen": "2026-08-29T17:38:20.077Z",
-    "last_seen": "2026-08-29T18:35:21.743Z"
+    "last_seen": "2026-08-29T20:58:28.805Z"
   },
   "JS-001": {
-    "occurrences": 5,
+    "occurrences": 14,
     "confidence": 1,
     "mastered_explicitly": false,
     "first_seen": "2026-08-29T17:38:20.078Z",
-    "last_seen": "2026-08-29T18:35:21.757Z"
+    "last_seen": "2026-08-29T20:58:28.816Z"
   }
 }

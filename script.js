@@ -12,17 +12,17 @@ document.addEventListener('DOMContentLoaded', () => {
         if (audioStream.paused) {
             // Estado: Conectando
             statusText.textContent = 'Conectando...';
-            
-            /* Truco para radio en vivo: 
-               Agregamos una marca de tiempo a la URL para forzar al navegador 
-               a cargar el audio en tiempo real y evitar que reproduzca caché antiguo 
-               si el usuario pausó la radio por mucho tiempo. */
-            audioStream.src = originalStreamUrl + '?t=' + new Date().getTime(); 
-            
+
+            // Restauramos la URL original del stream (sin parámetros extra,
+            // Icecast no los reconoce y rompe la conexión) y forzamos
+            // la reconexión con .load()
+            audioStream.src = originalStreamUrl;
+            audioStream.load();
+
             // Iniciar reproducción
             audioStream.play()
                 .then(() => {
-                    btnIcon.textContent = '⏸'; 
+                    btnIcon.textContent = '⏸';
                     playPauseBtn.classList.add('playing');
                     statusText.textContent = 'Sonando en vivo';
                 })
@@ -33,12 +33,12 @@ document.addEventListener('DOMContentLoaded', () => {
         } else {
             // Estado: Pausado
             audioStream.pause();
-            
-            /* Limpiar la fuente detiene la descarga de datos en segundo plano, 
+
+            /* Limpiar la fuente detiene la descarga de datos en segundo plano,
                ahorrando internet al usuario cuando la radio está pausada. */
-            audioStream.src = ''; 
-            
-            btnIcon.textContent = '▶'; 
+            audioStream.src = '';
+
+            btnIcon.textContent = '▶';
             playPauseBtn.classList.remove('playing');
             statusText.textContent = 'Listo para reproducir';
         }
@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
         statusText.textContent = 'Sonando en vivo';
     });
 });
+
 // Registrar el Service Worker para la PWA
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
