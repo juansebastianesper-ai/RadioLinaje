@@ -4,10 +4,14 @@ import httpx
 
 app = FastAPI()
 
-# Reemplaza con los datos exactos que te dio Listen2MyRadio
+# URL de tu servidor en Listen2MyRadio
 RADIO_URL = "http://82.145.41.50:12274/stream"
 
-@app.get("/stream")
+@app.get("/")
+async def root():
+    return {"message": "El puente de la radio está activo 🚀"}
+
+@app.get("/api/main")
 async def get_audio_stream():
     client = httpx.AsyncClient()
     request = client.build_request("GET", RADIO_URL)
