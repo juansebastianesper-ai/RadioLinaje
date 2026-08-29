@@ -1,5 +1,7 @@
 {
-  "rewrites": [
-    { "source": "/stream", "destination": "/api/main" }
+  "version": 2,
+  "routes": [
+    { "src": "/stream", "destination": "/api/main" },
+    { "src": "/(.*)", "destination": "/index.html" }
   ]
 }
