@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Emisora en Vivo</title>
+    
+    <!-- Enlace a la hoja de estilos -->
+    <link rel="stylesheet" href="style.css">
+    
+    <!-- Preparación para la PWA -->
+    <link rel="manifest" href="manifest.json">
+</head>
+<body>
+    <div class="app-container">
+        <header class="header">
+            <!-- Puedes reemplazar el texto por una etiqueta <img> con tu logo -->
+            <h1>Radio en Vivo</h1>
+            <span class="live-badge">🔴 ON AIR</span>
+        </header>
+
+        <main class="player-section">
+            <div class="track-info">
+                <h2 id="station-name">Transmisión Principal</h2>
+                <p id="status-text">Listo para reproducir</p>
+            </div>
+
+            <!-- El reproductor de audio oculto -->
+            <!-- IMPORTANTE: Reemplaza la URL del src por tu enlace de Listen2MyRadio -->
+            <audio id="audio-stream" src="http://82.145.41.50:12274/stream" preload="none"></audio>
+
+            <!-- Controles personalizados -->
+            <div class="controls">
+                <button id="play-pause-btn" class="control-btn play-mode">
+                    <span id="btn-icon">▶</span>
+                </button>
+            </div>
+        </main>
+        
+        <footer class="footer">
+            <p> 2026 - Transmitiendo con el padre, el hijo y su espiritu santo</p>
+        </footer>
+    </div>
+
+    <!-- Enlace a la lógica del reproductor -->
+    <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,158 @@
+/* Variables de color - Modo Oscuro */
+:root {
+    --bg-color: #121212;         /* Fondo exterior oscuro */
+    --app-bg: #1e1e24;           /* Fondo de la app */
+    --text-main: #ffffff;        /* Texto principal blanco */
+    --text-muted: #9e9e9e;       /* Texto secundario gris */
+    --accent-color: #ff3b30;     /* Color de acento (Rojo para la radio) */
+    --accent-hover: #ff5c53;     /* Rojo más claro para el hover */
+    --border-color: #333333;
+}
+
+/* Reseteo básico */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-main);
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+/* Contenedor tipo App Móvil */
+.app-container {
+    background-color: var(--app-bg);
+    width: 100%;
+    max-width: 400px; /* Limita el ancho en PC para que parezca app */
+    min-height: 80vh;
+    border-radius: 24px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    position: relative;
+}
+
+/* Cabecera */
+.header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px 24px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.header h1 {
+    font-size: 1.2rem;
+    font-weight: 600;
+}
+
+/* Etiqueta de En Vivo con animación */
+.live-badge {
+    background-color: rgba(255, 59, 48, 0.15);
+    color: var(--accent-color);
+    padding: 6px 12px;
+    border-radius: 50px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { opacity: 1; }
+    50% { opacity: 0.5; }
+    100% { opacity: 1; }
+}
+
+/* Área central (Reproductor) */
+.player-section {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 40px 24px;
+    text-align: center;
+}
+
+.track-info {
+    margin-bottom: 50px;
+}
+
+.track-info h2 {
+    font-size: 1.5rem;
+    margin-bottom: 8px;
+    font-weight: 700;
+}
+
+.track-info p {
+    color: var(--text-muted);
+    font-size: 1rem;
+}
+
+/* Controles */
+.controls {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+.control-btn {
+    background-color: var(--accent-color);
+    color: white;
+    border: none;
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: all 0.2s ease;
+    box-shadow: 0 8px 20px rgba(255, 59, 48, 0.4);
+    /* Centrar el ícono de play (triángulo) que a veces se ve descentrado */
+    padding-left: 6px; 
+}
+
+/* Clase dinámica que agregaremos con JS cuando esté pausado o sonando */
+.control-btn.playing {
+    padding-left: 0; /* Centra el ícono de pausa */
+}
+
+.control-btn:hover {
+    background-color: var(--accent-hover);
+    transform: translateY(-2px);
+}
+
+.control-btn:active {
+    transform: translateY(2px) scale(0.95);
+    box-shadow: 0 4px 10px rgba(255, 59, 48, 0.4);
+}
+
+/* Pie de página */
+.footer {
+    text-align: center;
+    padding: 20px;
+    font-size: 0.8rem;
+    color: var(--text-muted);
+    border-top: 1px solid var(--border-color);
+}
+
+/* Ajustes para pantallas pequeñas (Celulares) */
+@media (max-width: 480px) {
+    .app-container {
+        max-width: 100%;
+        min-height: 100vh;
+        border-radius: 0;
+    }
+}
