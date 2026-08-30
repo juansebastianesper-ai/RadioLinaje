@@ -1,21 +1,24 @@
 {
-  "name": "Mi Emisora en Vivo",
-  "short_name": "Radio",
-  "description": "Transmisión de radio en vivo 24/7",
+  "name": "RadioLinaje - Transmisión en Vivo",
+  "short_name": "RadioLinaje",
+  "description": "Transmisión de radio en vivo 24/7 - Música, fe y comunidad",
   "start_url": "./index.html",
   "display": "standalone",
   "background_color": "#121212",
   "theme_color": "#ff3b30",
+  "orientation": "portrait",
   "icons": [
     {
       "src": "icon-192.png",
       "sizes": "192x192",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any"
     },
     {
       "src": "icon-512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "any maskable"
     }
   ]
 }

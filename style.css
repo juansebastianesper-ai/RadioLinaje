@@ -118,25 +118,67 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    transition: all 0.2s ease;
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
     box-shadow: 0 8px 20px rgba(255, 59, 48, 0.4);
-    /* Centrar el ícono de play (triángulo) que a veces se ve descentrado */
-    padding-left: 6px; 
+    padding-left: 6px;
+    position: relative;
+    overflow: hidden;
 }
 
-/* Clase dinámica que agregaremos con JS cuando esté pausado o sonando */
+.control-btn::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: scale(0);
+    transition: transform 0.3s ease;
+}
+
+.control-btn:hover::before {
+    transform: scale(1);
+}
+
 .control-btn.playing {
-    padding-left: 0; /* Centra el ícono de pausa */
+    padding-left: 0;
+    box-shadow: 0 4px 15px rgba(255, 59, 48, 0.6);
 }
 
 .control-btn:hover {
     background-color: var(--accent-hover);
     transform: translateY(-2px);
+    box-shadow: 0 12px 25px rgba(255, 59, 48, 0.5);
 }
 
 .control-btn:active {
     transform: translateY(2px) scale(0.95);
     box-shadow: 0 4px 10px rgba(255, 59, 48, 0.4);
+}
+
+/* Spinner de carga */
+.control-btn.loading {
+    pointer-events: none;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+/* Transiciones de texto de estado */
+.track-info p {
+    color: var(--text-muted);
+    font-size: 1rem;
+    transition: color 0.3s ease, opacity 0.3s ease;
+}
+
+.track-info p.connecting {
+    color: #ffcc00;
+}
+
+.track-info p.error {
+    color: var(--accent-color);
 }
 
 /* Pie de página */

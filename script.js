@@ -1,68 +1,146 @@
 document.addEventListener('DOMContentLoaded', () => {
-    // Seleccionamos los elementos de la interfaz
     const audioStream = document.getElementById('audio-stream');
     const playPauseBtn = document.getElementById('play-pause-btn');
     const btnIcon = document.getElementById('btn-icon');
     const statusText = document.getElementById('status-text');
 
-    // Guardamos la URL original del stream
     const originalStreamUrl = audioStream.src;
+    let retryTimeout = null;
+    let retryCount = 0;
+    const MAX_RETRIES = 5;
+    const RETRY_DELAY = 3000;
+
+    function setStatus(text, className) {
+        statusText.textContent = text;
+        statusText.className = className || '';
+    }
+
+    function setPlaying() {
+        btnIcon.textContent = '⏸';
+        playPauseBtn.classList.add('playing');
+        playPauseBtn.classList.remove('loading');
+        setStatus('Sonando en vivo');
+        retryCount = 0;
+        updateMediaSession(true);
+    }
+
+    function setPaused() {
+        btnIcon.textContent = '▶';
+        playPauseBtn.classList.remove('playing', 'loading');
+        setStatus('Listo para reproducir');
+        cancelRetry();
+        updateMediaSession(false);
+    }
+
+    function setLoading() {
+        btnIcon.textContent = '⟳';
+        playPauseBtn.classList.add('loading');
+        playPauseBtn.classList.remove('playing');
+        setStatus('Conectando...', 'connecting');
+    }
+
+    function setError(message) {
+        btnIcon.textContent = '⚠';
+        playPauseBtn.classList.remove('playing', 'loading');
+        setStatus(message, 'error');
+    }
+
+    function startStream() {
+        setLoading();
+        audioStream.src = originalStreamUrl;
+        audioStream.load();
+
+        audioStream.play()
+            .then(() => setPlaying())
+            .catch((error) => {
+                console.error('Error de reproducción:', error);
+                scheduleRetry();
+            });
+    }
+
+    function stopStream() {
+        audioStream.pause();
+        audioStream.src = '';
+        setPaused();
+    }
+
+    function scheduleRetry() {
+        if (retryCount >= MAX_RETRIES) {
+            setError(`No se pudo conectar. Toca para reintentar.`);
+            return;
+        }
+        retryCount++;
+        const delay = RETRY_DELAY * retryCount;
+        setError(`Reconectando... (${retryCount}/${MAX_RETRIES})`);
+        playPauseBtn.classList.add('loading');
+        retryTimeout = setTimeout(() => startStream(), delay);
+    }
+
+    function cancelRetry() {
+        if (retryTimeout) {
+            clearTimeout(retryTimeout);
+            retryTimeout = null;
+        }
+        retryCount = 0;
+    }
 
     playPauseBtn.addEventListener('click', () => {
+        cancelRetry();
         if (audioStream.paused) {
-            // Estado: Conectando
-            statusText.textContent = 'Conectando...';
-
-            // Restauramos la URL original del stream (sin parámetros extra,
-            // Icecast no los reconoce y rompe la conexión) y forzamos
-            // la reconexión con .load()
-            audioStream.src = originalStreamUrl;
-            audioStream.load();
-
-            // Iniciar reproducción
-            audioStream.play()
-                .then(() => {
-                    btnIcon.textContent = '⏸';
-                    playPauseBtn.classList.add('playing');
-                    statusText.textContent = 'Sonando en vivo';
-                })
-                .catch((error) => {
-                    console.error('Error de reproducción:', error);
-                    statusText.textContent = 'Error al conectar';
-                });
+            startStream();
         } else {
-            // Estado: Pausado
-            audioStream.pause();
-
-            /* Limpiar la fuente detiene la descarga de datos en segundo plano,
-               ahorrando internet al usuario cuando la radio está pausada. */
-            audioStream.src = '';
-
-            btnIcon.textContent = '▶';
-            playPauseBtn.classList.remove('playing');
-            statusText.textContent = 'Listo para reproducir';
+            stopStream();
         }
     });
 
-    // Eventos adicionales para cuando el internet del usuario esté lento
     audioStream.addEventListener('waiting', () => {
-        statusText.textContent = 'Cargando buffer...';
+        setStatus('Cargando buffer...', 'connecting');
     });
 
     audioStream.addEventListener('playing', () => {
-        statusText.textContent = 'Sonando en vivo';
+        setPlaying();
     });
+
+    audioStream.addEventListener('error', () => {
+        scheduleRetry();
+    });
+
+    // MediaSession API - controles nativos del sistema
+    function updateMediaSession(isPlaying) {
+        if (!('mediaSession' in navigator)) return;
+
+        navigator.mediaSession.metadata = new MediaMetadata({
+            title: 'RadioLinaje',
+            artist: 'Transmisión en Vivo',
+            album: 'RadioLinaje Web',
+            artwork: [
+                { src: 'icon-192.png', sizes: '192x192', type: 'image/png' },
+                { src: 'icon-512.png', sizes: '512x512', type: 'image/png' }
+            ]
+        });
+
+        navigator.mediaSession.playbackState = isPlaying ? 'playing' : 'paused';
+
+        navigator.mediaSession.setActionHandler('play', () => {
+            if (audioStream.paused) startStream();
+        });
+
+        navigator.mediaSession.setActionHandler('pause', () => {
+            if (!audioStream.paused) stopStream();
+        });
+
+        navigator.mediaSession.setActionHandler('stop', () => stopStream());
+    }
+
+    // Inicializar MediaSession
+    updateMediaSession(false);
 });
 
-// Registrar el Service Worker para la PWA
+// Registrar Service Worker
 if ('serviceWorker' in navigator) {
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('./sw.js')
-            .then(registration => {
-                console.log('ServiceWorker registrado con éxito:', registration.scope);
-            })
-            .catch(error => {
-                console.log('Error al registrar el ServiceWorker:', error);
-            });
+            .then(reg => console.log('SW registrado:', reg.scope))
+            .catch(err => console.log('Error SW:', err));
     });
 }

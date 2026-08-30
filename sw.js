@@ -1,4 +1,5 @@
-const CACHE_NAME = 'radio-cache-v1';
+const CACHE_NAME = 'radio-cache-v2';
+const STREAM_HOST = 'radiolinaje-audio.juansebastianesper.workers.dev';
 const urlsToCache = [
   './',
   './index.html',
@@ -7,25 +8,31 @@ const urlsToCache = [
   './manifest.json'
 ];
 
-// Instalar el Service Worker y guardar los archivos básicos en caché
 self.addEventListener('install', event => {
   event.waitUntil(
     caches.open(CACHE_NAME)
-      .then(cache => {
-        return cache.addAll(urlsToCache);
-      })
+      .then(cache => cache.addAll(urlsToCache))
   );
+  self.skipWaiting();
 });
 
-// Interceptar peticiones para que la app cargue incluso si el internet falla momentáneamente
+self.addEventListener('activate', event => {
+  event.waitUntil(
+    caches.keys().then(keys =>
+      Promise.all(keys.filter(k => k !== CACHE_NAME).map(k => caches.delete(k)))
+    )
+  );
+  self.clients.claim();
+});
+
 self.addEventListener('fetch', event => {
-  // No cacheamos el stream de audio, solo los archivos de la app
-  if (event.request.url.includes('/stream')) return;
+  const url = new URL(event.request.url);
+
+  // No interceptar el stream de audio ni peticiones al proxy de Workers
+  if (url.hostname === STREAM_HOST || url.pathname.includes('/stream')) return;
 
   event.respondWith(
     caches.match(event.request)
-      .then(response => {
-        return response || fetch(event.request);
-      })
+      .then(response => response || fetch(event.request))
   );
 });
