@@ -1,12 +1,12 @@
-/* Variables de color - Modo Oscuro */
+/* Variables de color - Modo Oscuro Dorado */
 :root {
-    --bg-color: #121212;         /* Fondo exterior oscuro */
-    --app-bg: #1e1e24;           /* Fondo de la app */
-    --text-main: #ffffff;        /* Texto principal blanco */
-    --text-muted: #9e9e9e;       /* Texto secundario gris */
-    --accent-color: #ff3b30;     /* Color de acento (Rojo para la radio) */
-    --accent-hover: #ff5c53;     /* Rojo más claro para el hover */
-    --border-color: #333333;
+    --bg-color: #0a0a0a;
+    --app-bg: #1a1410;
+    --text-main: #ffffff;
+    --text-muted: #b0a080;
+    --accent-color: #c8960a;
+    --accent-hover: #e0ab20;
+    --border-color: #3a3020;
 }
 
 /* Reseteo básico */
@@ -45,18 +45,19 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 20px 24px;
+    padding: 16px 24px;
     border-bottom: 1px solid var(--border-color);
 }
 
-.header h1 {
-    font-size: 1.2rem;
-    font-weight: 600;
+.header-logo {
+    height: 48px;
+    width: auto;
+    object-fit: contain;
 }
 
 /* Etiqueta de En Vivo con animación */
 .live-badge {
-    background-color: rgba(255, 59, 48, 0.15);
+    background-color: rgba(200, 150, 10, 0.15);
     color: var(--accent-color);
     padding: 6px 12px;
     border-radius: 50px;
@@ -81,10 +82,39 @@ body {
     align-items: center;
     padding: 40px 24px;
     text-align: center;
+    position: relative;
+    overflow: hidden;
+}
+
+.banner-bg {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+}
+
+.banner-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    opacity: 0.25;
+}
+
+.banner-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+        to bottom,
+        rgba(26, 20, 16, 0.7) 0%,
+        rgba(26, 20, 16, 0.4) 40%,
+        rgba(26, 20, 16, 0.4) 60%,
+        rgba(26, 20, 16, 0.8) 100%
+    );
 }
 
 .track-info {
     margin-bottom: 50px;
+    position: relative;
+    z-index: 1;
 }
 
 .track-info h2 {
@@ -104,6 +134,8 @@ body {
     justify-content: center;
     align-items: center;
     width: 100%;
+    position: relative;
+    z-index: 1;
 }
 
 .control-btn {
@@ -119,7 +151,7 @@ body {
     justify-content: center;
     align-items: center;
     transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    box-shadow: 0 8px 20px rgba(255, 59, 48, 0.4);
+    box-shadow: 0 8px 20px rgba(200, 150, 10, 0.4);
     padding-left: 6px;
     position: relative;
     overflow: hidden;
@@ -141,18 +173,18 @@ body {
 
 .control-btn.playing {
     padding-left: 0;
-    box-shadow: 0 4px 15px rgba(255, 59, 48, 0.6);
+    box-shadow: 0 4px 15px rgba(200, 150, 10, 0.6);
 }
 
 .control-btn:hover {
     background-color: var(--accent-hover);
     transform: translateY(-2px);
-    box-shadow: 0 12px 25px rgba(255, 59, 48, 0.5);
+    box-shadow: 0 12px 25px rgba(200, 150, 10, 0.5);
 }
 
 .control-btn:active {
     transform: translateY(2px) scale(0.95);
-    box-shadow: 0 4px 10px rgba(255, 59, 48, 0.4);
+    box-shadow: 0 4px 10px rgba(200, 150, 10, 0.4);
 }
 
 /* Spinner de carga */

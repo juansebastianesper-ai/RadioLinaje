@@ -5,27 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>RadioLinaje - Transmisión en Vivo 24/7</title>
     <meta name="description" content="RadioLinaje - Escucha nuestra transmisión de radio en vivo las 24 horas del día. Música, palabras de fe y comunidad.">
-    <meta name="theme-color" content="#ff3b30">
+    <meta name="theme-color" content="#c8960a">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <meta name="apple-mobile-web-app-title" content="RadioLinaje">
-    <link rel="apple-touch-icon" href="icon-192.png">
+    <link rel="apple-touch-icon" href="logo.png">
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website">
     <meta property="og:title" content="RadioLinaje - Transmisión en Vivo">
     <meta property="og:description" content="Escucha nuestra transmisión de radio en vivo las 24 horas del día.">
-    <meta property="og:image" content="icon-512.png">
+    <meta property="og:image" content="banner.jpg">
 
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image">
     <meta name="twitter:title" content="RadioLinaje - Transmisión en Vivo">
     <meta name="twitter:description" content="Escucha nuestra transmisión de radio en vivo las 24 horas del día.">
-    <meta name="twitter:image" content="icon-512.png">
+    <meta name="twitter:image" content="banner.jpg">
 
     <!-- Favicon -->
-    <link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
-    <link rel="icon" type="image/png" sizes="512x512" href="icon-512.png">
+    <link rel="icon" type="image/png" href="logo.png">
 
     <!-- Enlace a la hoja de estilos -->
     <link rel="stylesheet" href="style.css">
@@ -36,14 +35,16 @@
 <body>
     <div class="app-container">
         <header class="header">
-            <!-- Puedes reemplazar el texto por una etiqueta <img> con tu logo -->
-            <h1>Radio en Vivo</h1>
+            <img src="logo.png" alt="RadioLinaje" class="header-logo">
             <span class="live-badge">🔴 ON AIR</span>
         </header>
 
         <main class="player-section">
+            <div class="banner-bg">
+                <img src="banner.jpg" alt="RadioLinaje" class="banner-img">
+                <div class="banner-overlay"></div>
+            </div>
             <div class="track-info">
-                <h2 id="station-name">Transmisión Principal</h2>
                 <p id="status-text">Listo para reproducir</p>
             </div>
 
@@ -60,7 +61,7 @@
         </main>
         
         <footer class="footer">
-            <p> 2026 - Transmitiendo con el padre, el hijo y su espiritu santo de Dios</p>
+            <p> 2026 - Transmitiendo con el padre, el hijo y el espiritu santo</p>
         </footer>
     </div>
 

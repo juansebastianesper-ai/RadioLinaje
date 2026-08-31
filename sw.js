@@ -1,11 +1,13 @@
-const CACHE_NAME = 'radio-cache-v2';
+const CACHE_NAME = 'radio-cache-v3';
 const STREAM_HOST = 'radiolinaje-audio.juansebastianesper.workers.dev';
 const urlsToCache = [
   './',
   './index.html',
   './style.css',
   './script.js',
-  './manifest.json'
+  './manifest.json',
+  './logo.png',
+  './banner.jpg'
 ];
 
 self.addEventListener('install', event => {
