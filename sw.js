@@ -1,4 +1,4 @@
-const CACHE_NAME = 'radio-cache-v3';
+const CACHE_NAME = 'radio-cache-v4';
 const STREAM_HOST = 'radiolinaje-audio.juansebastianesper.workers.dev';
 const urlsToCache = [
   './',
@@ -30,11 +30,16 @@ self.addEventListener('activate', event => {
 self.addEventListener('fetch', event => {
   const url = new URL(event.request.url);
 
-  // No interceptar el stream de audio ni peticiones al proxy de Workers
   if (url.hostname === STREAM_HOST || url.pathname.includes('/stream')) return;
 
   event.respondWith(
-    caches.match(event.request)
-      .then(response => response || fetch(event.request))
+    caches.match(event.request).then(response => {
+      return fetch(event.request).then(networkResponse => {
+        return caches.open(CACHE_NAME).then(cache => {
+          cache.put(event.request, networkResponse.clone());
+          return networkResponse;
+        });
+      }).catch(() => response);
+    })
   );
 });
