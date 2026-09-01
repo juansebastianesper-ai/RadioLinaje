@@ -133,6 +133,27 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Inicializar MediaSession
     updateMediaSession(false);
+
+    // Contador de oyentes
+    const listenersCount = document.getElementById('listeners-count');
+    const listenersBadge = document.getElementById('listeners');
+    const STATS_URL = 'https://radiolinaje-audio.juansebastianesper.workers.dev/stats';
+
+    async function fetchListeners() {
+        try {
+            const response = await fetch(STATS_URL);
+            const data = await response.json();
+            if (!data.error) {
+                listenersCount.textContent = data.listeners;
+                listenersBadge.classList.remove('hidden');
+            }
+        } catch (e) {
+            // Silenciar errores de red
+        }
+    }
+
+    fetchListeners();
+    setInterval(fetchListeners, 10000);
 });
 
 // Registrar Service Worker

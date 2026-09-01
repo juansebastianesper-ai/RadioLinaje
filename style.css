@@ -189,6 +189,33 @@ body {
     color: var(--accent-color);
 }
 
+/* Contador de oyentes */
+.listeners-badge {
+    margin-top: 24px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    background-color: rgba(200, 150, 10, 0.1);
+    color: var(--text-muted);
+    padding: 8px 16px;
+    border-radius: 50px;
+    font-size: 0.8rem;
+    transition: opacity 0.3s ease;
+}
+
+.listeners-badge.hidden {
+    opacity: 0;
+}
+
+#listeners-icon {
+    font-size: 1rem;
+}
+
+#listeners-count {
+    color: var(--accent-color);
+    font-weight: 700;
+}
+
 /* Pie de página */
 .footer {
     text-align: center;
